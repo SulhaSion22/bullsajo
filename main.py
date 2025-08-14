@@ -133,7 +133,41 @@ def quick_sort(arr):
 
 
 def heap_sort(arr):
-    pass  # 선택 구현: 힙 정렬
+    """
+    힙 정렬: 새 리스트 반환 (원본 보존)
+    시간 복잡도 O(n log n), 불안정 정렬
+    """
+    a = arr[:]  # 원본 보존
+    n = len(a)
+
+    def heapify(i, size):
+        while True:
+            left = 2 * i + 1
+            right = 2 * i + 2
+            largest = i
+
+            if left < size and a[left] > a[largest]:
+                largest = left
+            if right < size and a[right] > a[largest]:
+                largest = right
+
+            if largest == i:
+                break
+
+            a[i], a[largest] = a[largest], a[i]
+            i = largest
+
+    # 최대 힙 만들기
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(i, n)
+
+    # 힙에서 하나씩 꺼내 정렬
+    for end in range(n - 1, 0, -1):
+        a[0], a[end] = a[end], a[0]
+        heapify(0, end)
+
+    return a
+
 
 
 if __name__ == "__main__":
